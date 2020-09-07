@@ -38,3 +38,24 @@ fn next_dead_test() {
 
     assert_eq!(to_next_dead(0xDEACEAD), 0x1000 - 0xEAD);
 }
+
+#[test]
+fn range_iterator_test() {
+    let mut ri = PatternRangeIterator::new(0, 0xDEAD, 0xFFFF);
+    assert_eq!(ri.next(), Some((0xDEAD, 0xDEAD)));
+    assert_eq!(ri.next(), Some((0x1DEAD, 0x1DEAD)));
+    assert_eq!(ri.next(), Some((0x2DEAD, 0x2DEAD)));
+    assert_eq!(ri.next(), Some((0x3DEAD, 0x3DEAD)));
+    assert_eq!(ri.next(), Some((0x4DEAD, 0x4DEAD)));
+    assert_eq!(ri.next(), Some((0x5DEAD, 0x5DEAD)));
+    assert_eq!(ri.next(), Some((0x6DEAD, 0x6DEAD)));
+    assert_eq!(ri.next(), Some((0x7DEAD, 0x7DEAD)));
+    assert_eq!(ri.next(), Some((0x8DEAD, 0x8DEAD)));
+    assert_eq!(ri.next(), Some((0x9DEAD, 0x9DEAD)));
+    assert_eq!(ri.next(), Some((0xADEAD, 0xADEAD)));
+    assert_eq!(ri.next(), Some((0xBDEAD, 0xBDEAD)));
+    assert_eq!(ri.next(), Some((0xCDEAD, 0xCDEAD)));
+    assert_eq!(ri.next(), Some((0xDDEAD, 0xDDEAD)));
+    assert_eq!(ri.next(), Some((0xDEAD0, 0xDEADF)));
+    assert_eq!(ri.next(), Some((0xEDEAD, 0xEDEAD)));
+}

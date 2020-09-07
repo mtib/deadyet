@@ -12,6 +12,19 @@
         <div class="container">
             {% block container %}{% endblock %}
         </div>
+        {% block footer %}
+        <div class="fixed-bottom pt-2 bg-white">
+            <ul class="list-inline text-center">
+                <li class="list-inline-item"><b>Other links</b></li>
+                <li class="list-inline-item"><a href="/">IIDY?</a></li>
+                <li class="list-inline-item"><a href="/list/DEAD/now">/list/dead</a></li>
+                <li class="list-inline-item"><a href="/dead_dec/1010">/dead_dec/num</a></li>
+                <li class="list-inline-item"><a href="/dead_hex/DEADEAD">/dead_hex/num</a></li>
+                <li class="list-inline-item"><a href="/check/ABABBA/ABBA">/check/num/pattern</a></li>
+                <li class="list-inline-item"><a href="https://github.com/mtib/deadyet">github</a></li>
+            </ul>
+        </div>
+        {% endblock %}
         {% endblock %}
     </body>
 </html>

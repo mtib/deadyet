@@ -1,0 +1,31 @@
+{% extends "base" %}
+{% block container %}
+    <div class="py-5 text-center">
+        <span class="display-2">{{ hex }}</span> <span class="text-muted display-4">({{num}})</span>
+    </div>
+    <div>
+        <table class="table text-center">
+            <tr>
+            <th>Start</th>
+            <th>End</th>
+            <th>"Duration"</th>
+            </tr>
+            {% for interval in ranges %}
+            <tr>
+                <td class="u64-cell start-num">{{interval.0}}</td>
+                <td class="u64-cell end-num">{{interval.1}}</td>
+                <td>{{interval.1 - interval.0 + 1}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <script>
+    const cells = document.getElementsByClassName('u64-cell');
+    for (let cell of cells) {
+        const n = parseInt(cell.innerHTML);
+        console.log(n);
+        cell.innerHTML = `${n} = ${n.toString(16).toUpperCase()} = ${new Date(n*1000)}`
+        console.log(cell.innerHTML)
+    }
+    </script>
+{% endblock %}

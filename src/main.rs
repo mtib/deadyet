@@ -11,13 +11,13 @@ use rocket_contrib::templates::Template;
 use serde::Serialize;
 
 struct Hex {
-    value: usize,
+    value: u64,
 }
 
 impl<'r> FromParam<'r> for Hex {
     type Error = String;
     fn from_param(param: &'r RawStr) -> Result<Self, String> {
-        match usize::from_str_radix(param.as_str(), 16) {
+        match u64::from_str_radix(param.as_str(), 16) {
             Ok(num) => Ok(Hex { value: num }),
             Err(e) => Err(e.to_string()),
         }
@@ -83,12 +83,56 @@ fn is_dead_now() -> Template {
     )
 }
 
+#[get("/<num>", rank = 5)]
+fn list_ranges_default(num: Hex) -> Template {
+    list_ranges(num, 0)
+}
+
+use std::time::SystemTime;
+
+#[get("/<num>/now", rank = 4)]
+fn list_ranges_now(num: Hex) -> Template {
+    let now = match SystemTime::now().duration_since(SystemTime::UNIX_EPOCH) {
+        Ok(n) => n.as_secs(),
+        Err(_) => panic!("SystemTime before UNIX EPOCH!"),
+    };
+    list_ranges(num, now)
+}
+
+#[get("/<num>/<start>", rank = 3)]
+fn list_ranges(num: Hex, start: u64) -> Template {
+    #[derive(Serialize)]
+    struct Ranges {
+        num: u64,
+        hex: String,
+        ranges: Vec<(u64, u64)>,
+    };
+    Template::render(
+        "range_list",
+        Ranges {
+            num: num.value,
+            hex: format!("{:X}", num.value),
+            ranges: PatternRangeIterator::new(
+                start,
+                &num,
+                2u64.pow(num.to_hex().len() as u32 * 4) - 1,
+            )
+            .take(500)
+            .collect(),
+        },
+    )
+}
+
 fn main() {
     rocket::ignite()
         .attach(Template::fairing())
         .mount("/check", routes![check])
         .mount("/dead_hex", routes![is_dead_hex])
         .mount("/dead_dec", routes![is_dead_dec])
+        .mount(
+            "/list",
+            routes![list_ranges_now, list_ranges, list_ranges_default],
+        )
         .mount("/", routes![is_dead_now])
         .launch();
 }

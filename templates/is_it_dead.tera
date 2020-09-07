@@ -3,20 +3,11 @@
     <div class="py-5 my-5">
         <p class="text-center font-weight-bold display-2">Is it dead yet?</p><hr>
         <p class="text-center display-2" id="yesno">{% if dead %}yes{% else %}no{% endif %}</p>
-    </div>
-    <div class="fixed-bottom p-2">
-        <div class="text-center">
+        <div class="text-center pt-5">
             <p>
                 Next dead in <span id='countdown'>{{ next_s }}s</span> at <span id='timestamp'>{{ next_time }}</span>.
             </p>
         </div>
-        <ul class="list-inline text-center">
-            <li class="list-inline-item"><b>Other links</b></li>
-            <li class="list-inline-item"><a href="/dead_dec/1010">/dead_dec/num</a></li>
-            <li class="list-inline-item"><a href="/dead_hex/DEADEAD">/dead_hex/num</a></li>
-            <li class="list-inline-item"><a href="/check/ABABBA/ABBA">/check/num/pattern</a></li>
-            <li class="list-inline-item"><a href="https://github.com/mtib/deadyet">github</a></li>
-        </ul>
     </div>
     <script>
         const cd = document.getElementById('countdown');
