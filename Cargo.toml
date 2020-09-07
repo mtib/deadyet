@@ -1,6 +1,6 @@
 [package]
 name = "deadyet"
-version = "0.2.2"
+version = "0.3.0"
 authors = ["Markus Becker <mtib.becker@gmail.com>"]
 edition = "2018"
 description = "Checks whether hex representations contain patterns"
