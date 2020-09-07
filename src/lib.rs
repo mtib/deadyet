@@ -1,3 +1,27 @@
+//! This package allows you to efficiently search for hex patterns in the
+//! hex representation of `Decodable` values.
+//!
+//! It is intended to find and search for these patterns in unix timestamps, specifically
+//! occurences of `DEAD` within the timestamp but is not limited to this.
+//!
+//! ```
+//! use deadyet::{to_next_dead, to_next_pattern, has_pattern, Decodable};
+//!
+//! assert_eq!(to_next_dead(0xDEAE), 0xFFFF);
+//! assert_eq!(to_next_dead(0xDEACFF), 1);
+//! assert_eq!(to_next_dead(0xDEAD0), 0);
+//! assert_eq!(to_next_dead(0xDEAC0), 0x10);
+//!
+//! assert_eq!(to_next_pattern(0xAAAAA, 0xABBA, 0xFFFF), 0x110);
+//!
+//! assert!(has_pattern(0xAABBAA, 0xABBA));
+//! ```
+//!
+//! ### Roadmap
+//!
+//! - Implement iterator for pattern searches
+//! - Reverse search
+
 use std::fmt::UpperHex;
 use std::time::SystemTime;
 

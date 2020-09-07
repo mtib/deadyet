@@ -1,6 +1,6 @@
 [package]
 name = "deadyet"
-version = "0.2.1"
+version = "0.2.2"
 authors = ["Markus Becker <mtib.becker@gmail.com>"]
 edition = "2018"
 description = "Checks whether hex representations contain patterns"
@@ -12,6 +12,10 @@ license = "MIT"
 [lib]
 name = "deadyet"
 path = "src/lib.rs"
+
+[[bin]]
+name = "deadyet_web"
+path = "src/main.rs"
 
 [dependencies]
 rocket = "0.4.5"
