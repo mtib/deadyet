@@ -35,4 +35,6 @@ fn next_dead_test() {
     assert_eq!(to_next_dead(0xDEAC1), 15);
 
     assert_eq!(to_next_dead(0xDEACFF), 0x1);
+
+    assert_eq!(to_next_dead(0xDEACEAD), 0x1000 - 0xEAD);
 }
