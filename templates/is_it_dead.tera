@@ -1,8 +1,8 @@
 {% extends "base" %}
 {% block container %}
     <div class="py-5 my-5">
-        <p class="text-center font-weight-bold display-4 display-1-md">Is it dead yet?</p><hr>
-        <p class="text-center display-4 display-2-md" id="yesno">{% if dead %}yes{% else %}no{% endif %}</p>
+        <p class="text-center font-weight-bold display-2">Is it dead yet?</p><hr>
+        <p class="text-center display-2" id="yesno">{% if dead %}yes{% else %}no{% endif %}</p>
     </div>
     <div class="fixed-bottom p-2">
         <div class="text-center">
