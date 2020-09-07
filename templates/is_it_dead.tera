@@ -1,10 +1,10 @@
 {% extends "base" %}
 {% block container %}
     <div class="py-5 my-5">
-        <p class="text-center font-weight-bold display-1">Is it dead yet?</p><hr>
-        <p class="text-center display-2" id="yesno">{% if dead %}yes{% else %}no{% endif %}</p>
+        <p class="text-center font-weight-bold display-4 display-1-md">Is it dead yet?</p><hr>
+        <p class="text-center display-4 display-2-md" id="yesno">{% if dead %}yes{% else %}no{% endif %}</p>
     </div>
-    <div class="fixed-bottom">
+    <div class="fixed-bottom p-2">
         <div class="text-center">
             <p>
                 Next dead in <span id='countdown'>{{ next_s }}s</span> at <span id='timestamp'>{{ next_time }}</span>.
@@ -31,10 +31,10 @@
         window.setInterval(()=>{
             const diff_s = Math.ceil((next_dead - new Date())/1000);
             cd.innerHTML = `${diff_s}s = ${(diff_s/60).toFixed(0)}min = ${(diff_s/60/60).toFixed(1)}h`;
-            if (diff < 2000) {
+            if (diff_s < 2) {
                 bool.innerHTML = 'yes';
             }
-            if (diff < 10000) {
+            if (diff_s < -10) {
                 location.reload();
             }
         }, 1000)
