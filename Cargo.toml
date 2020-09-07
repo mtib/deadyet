@@ -1,6 +1,6 @@
 [package]
 name = "deadyet"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Markus Becker <mtib.becker@gmail.com>"]
 edition = "2018"
 description = "Checks whether hex representations contain patterns"
@@ -14,3 +14,11 @@ name = "deadyet"
 path = "src/lib.rs"
 
 [dependencies]
+rocket = "0.4.5"
+hex = "0.4"
+serde = { version = "1.0", features = ["derive"] }
+
+[dependencies.rocket_contrib]
+version = "0.4.5"
+default-features = false
+features = ["handlebars_templates", "tera_templates"]
