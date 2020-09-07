@@ -21,8 +21,8 @@ impl<H: UpperHex> Decodable for H {
         let hex = format!("{:X}", self);
         hex.chars()
             .map(|x| match x {
-                'A'..='F' => 10 + (x as u8) - ('A' as u8),
-                _ => (x as u8) - ('0' as u8),
+                'A'..='F' => 10 + (x as u8) - b'A',
+                _ => (x as u8) - b'0',
             })
             .collect()
     }
