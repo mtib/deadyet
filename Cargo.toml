@@ -1,0 +1,13 @@
+[package]
+name = "deadyet"
+version = "0.1.0"
+authors = ["Markus Becker <mtib.becker@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+name = "deadyet"
+path = "src/lib.rs"
+
+[dependencies]
