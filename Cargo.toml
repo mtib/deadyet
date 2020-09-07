@@ -1,6 +1,6 @@
 [package]
 name = "deadyet"
-version = "0.2.0"
+version = "0.2.1"
 authors = ["Markus Becker <mtib.becker@gmail.com>"]
 edition = "2018"
 description = "Checks whether hex representations contain patterns"
@@ -15,7 +15,6 @@ path = "src/lib.rs"
 
 [dependencies]
 rocket = "0.4.5"
-hex = "0.4"
 serde = { version = "1.0", features = ["derive"] }
 
 [dependencies.rocket_contrib]

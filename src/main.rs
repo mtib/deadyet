@@ -2,7 +2,6 @@
 
 #[macro_use]
 extern crate rocket;
-extern crate hex;
 extern crate serde;
 
 use deadyet::*;
