@@ -19,6 +19,10 @@
 
 use std::fmt::UpperHex;
 use std::time::SystemTime;
+use wasm_bindgen::prelude::*;
+
+#[cfg(target_arch = "wasm32")]
+use web_sys::console;
 
 /// Implementors of this trait can be numerically expressed and reasonably mapped to
 /// a `Vec<u8>` of hex digits.
@@ -125,6 +129,8 @@ impl Iterator for PatternIterator {
 /// assert_eq!(b00b5pri.next(), Some((0xB00B50, 0xB00B5F)));
 /// assert_eq!(b00b5pri.next(), Some((0xBB00B5, 0xBB00B5)));
 /// ```
+#[wasm_bindgen]
+#[derive(Debug)]
 pub struct PatternRangeIterator {
     current: u64,
     pattern: u64,
@@ -144,9 +150,30 @@ impl PatternRangeIterator {
     }
 }
 
+#[wasm_bindgen]
+#[cfg(target_arch = "wasm32")]
+pub struct Range {
+    #[wasm_bindgen]
+    pub start: u64,
+    #[wasm_bindgen]
+    pub end: u64,
+}
+
+#[wasm_bindgen]
+#[cfg(target_arch = "wasm32")]
+pub fn new_dead_pri(start: u64) -> PatternRangeIterator {
+    PatternRangeIterator::new(start, 0xDEADu64, 0xFFFFu64)
+}
+
+#[wasm_bindgen]
+#[cfg(target_arch = "wasm32")]
+pub fn step(pri: &mut PatternRangeIterator) -> Range {
+    let (t1, t2) = pri.next().unwrap();
+    Range { start: t1, end: t2 }
+}
+
 impl Iterator for PatternRangeIterator {
     type Item = (u64, u64);
-
     fn next(&mut self) -> Option<Self::Item> {
         let start_of_next =
             self.current + to_next_pattern(self.current, self.pattern, self.pattern_mask);
@@ -225,7 +252,10 @@ pub fn next_dead() -> (u64, u64) {
 }
 
 // Returns the time to next dead (or 0 if `after` is dead)
+#[wasm_bindgen]
 pub fn to_next_dead(number: u64) -> u64 {
+    #[cfg(target_arch = "wasm32")]
+    console::time_with_label("to_next_pattern");
     to_next_pattern(number, 0xDEAD, 0xFFFF)
 }
 
@@ -238,6 +268,7 @@ pub fn to_next_dead_at_end(number: u64, lshd: usize) -> u64 {
 use std::cmp::Ordering;
 
 /// Returns the different to the next greater occurrence of the pattern.
+#[wasm_bindgen]
 pub fn to_next_pattern(number: u64, pattern: u64, pattern_mask: u64) -> u64 {
     let mut min = u64::MAX;
     let hexa = number.to_hex();
