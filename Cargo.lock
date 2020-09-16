@@ -175,6 +175,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "08c48aae112d48ed9f069b33538ea9e3e90aa263cfa3d1c24309612b1f7472de"
 
 [[package]]
+name = "cached"
+version = "0.6.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c1c174ad12dfa4ddebe464abcdf447c6a0a7c6cd65bd6cdc29180499fe7875f9"
+
+[[package]]
 name = "cfg-if"
 version = "0.1.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -221,6 +227,8 @@ dependencies = [
 name = "deadyet"
 version = "0.3.0"
 dependencies = [
+ "cached",
+ "lazy_static",
  "rocket",
  "rocket_contrib",
  "serde",

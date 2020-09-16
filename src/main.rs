@@ -10,6 +10,7 @@ use rocket::request::FromParam;
 use rocket_contrib::templates::Template;
 use serde::Serialize;
 
+#[derive(Clone, Debug)]
 struct Hex {
     value: u64,
 }

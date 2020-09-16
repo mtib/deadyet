@@ -19,12 +19,16 @@
 
 use std::fmt::UpperHex;
 use std::time::SystemTime;
+#[macro_use]
+extern crate cached;
+#[macro_use]
+extern crate lazy_static;
 
 /// Implementors of this trait can be numerically expressed and reasonably mapped to
 /// a `Vec<u8>` of hex digits.
 ///
-/// The easiest auto trait implementation is [UpperHex](std::fmt::UpperHex).
-pub trait Decodable {
+/// The blanket trait implementation is [UpperHex](std::fmt::UpperHex) + Clone.
+pub trait Decodable: Clone {
     /// Converts the input into a vec of values 0 to 15
     /// ```
     /// use deadyet::Decodable;
@@ -42,7 +46,7 @@ pub trait Decodable {
     fn to_pattern_u64(&self) -> u64;
 }
 
-impl<H: UpperHex> Decodable for H {
+impl<H: UpperHex + Clone> Decodable for H {
     fn to_hex(&self) -> Vec<u8> {
         let hex = format!("{:X}", self);
         hex.chars()
@@ -239,13 +243,22 @@ use std::cmp::Ordering;
 
 /// Returns the different to the next greater occurrence of the pattern.
 pub fn to_next_pattern(number: u64, pattern: u64, pattern_mask: u64) -> u64 {
-    let mut min = u64::MAX;
-    let hexa = number.to_hex();
-    for i in 0..(hexa.len()) {
-        let x = to_next_pattern_at_end(number, i, pattern, pattern_mask);
-        min = if min > x { x } else { min };
+    cached_to_next_pattern(number, pattern, pattern_mask)
+}
+
+use cached::SizedCache;
+
+cached! {
+    COMPUTE: SizedCache<(u64, u64, u64), u64> = SizedCache::with_size(8192);
+    fn cached_to_next_pattern( number: u64, pattern: u64, pattern_mask: u64) -> u64 = {
+        let mut min = u64::MAX;
+        let hexa = number.to_hex();
+        for i in 0..(hexa.len()) {
+            let x = to_next_pattern_at_end(number, i, pattern, pattern_mask);
+            min = if min > x { x } else { min };
+        }
+        min
     }
-    min
 }
 
 /// Returns the difference to the next greater occurrence of the `pattern` in relation to `number`.
