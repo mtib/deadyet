@@ -17,12 +17,9 @@
 //! assert!(has_pattern(0xAABBAA, 0xABBA));
 //! ```
 
+use cached::proc_macro::cached;
 use std::fmt::UpperHex;
 use std::time::SystemTime;
-#[macro_use]
-extern crate cached;
-#[macro_use]
-extern crate lazy_static;
 
 /// Implementors of this trait can be numerically expressed and reasonably mapped to
 /// a `Vec<u8>` of hex digits.
@@ -242,23 +239,15 @@ pub fn to_next_dead_at_end(number: u64, lshd: usize) -> u64 {
 use std::cmp::Ordering;
 
 /// Returns the different to the next greater occurrence of the pattern.
+#[cached(size = 8192)]
 pub fn to_next_pattern(number: u64, pattern: u64, pattern_mask: u64) -> u64 {
-    cached_to_next_pattern(number, pattern, pattern_mask)
-}
-
-use cached::SizedCache;
-
-cached! {
-    COMPUTE: SizedCache<(u64, u64, u64), u64> = SizedCache::with_size(8192);
-    fn cached_to_next_pattern( number: u64, pattern: u64, pattern_mask: u64) -> u64 = {
-        let mut min = u64::MAX;
-        let hexa = number.to_hex();
-        for i in 0..(hexa.len()) {
-            let x = to_next_pattern_at_end(number, i, pattern, pattern_mask);
-            min = if min > x { x } else { min };
-        }
-        min
+    let mut min = u64::MAX;
+    let hexa = number.to_hex();
+    for i in 0..(hexa.len()) {
+        let x = to_next_pattern_at_end(number, i, pattern, pattern_mask);
+        min = if min > x { x } else { min };
     }
+    min
 }
 
 /// Returns the difference to the next greater occurrence of the `pattern` in relation to `number`.

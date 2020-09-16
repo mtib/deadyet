@@ -18,8 +18,7 @@ name = "deadyet_web"
 path = "src/main.rs"
 
 [dependencies]
-cached = "0.6.0"
-lazy_static = "1.4.0"
+cached = "0.19.0"
 rocket = "0.4.5"
 serde = { version = "1.0", features = ["derive"] }
 
