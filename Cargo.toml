@@ -5,7 +5,7 @@ authors = ["Markus Becker <mtib.becker@gmail.com>"]
 edition = "2018"
 description = "Checks whether hex representations contain patterns"
 repository = "https://github.com/mtib/deadyet"
-license = "MIT"
+license = "GPL-3.0-only"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
